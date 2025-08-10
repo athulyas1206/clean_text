@@ -31,4 +31,11 @@ This tool is designed for writers, students, developers, and anyone who needs cl
 ---
 
 ## 📂 Project Structure
+## 📸 Screenshots
+
+### Home Page
+![Home Page](screenshots/screenshot-home.png)
+
+### After Cleaning Text
+![Cleaned Output](screenshots/screenshot-output.png)
 
