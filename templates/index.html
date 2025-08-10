@@ -1,96 +1,123 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Serif%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
-    />
-    <title>Stitch Design - Text Cleaner</title>
-    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Text Cleaner</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <style>
+    /* Floating emoji animations */
+    .float-emoji {
+      position: absolute;
+      animation-name: floatUpDown;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      font-size: 1.8rem;
+      user-select: none;
+    }
+    @keyframes floatUpDown {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-15px); }
+    }
+    
+    /* Different speeds and positions for floating emojis */
+    .float-1 { animation-duration: 4s; left: 10%; top: 10%; color: #a78bfa; /* violet-400 */ }
+    .float-2 { animation-duration: 5.5s; left: 30%; top: 20%; color: #8b5cf6; /* violet-500 */ }
+    .float-3 { animation-duration: 6.2s; left: 50%; top: 15%; color: #7c3aed; /* violet-600 */ }
+    .float-4 { animation-duration: 4.8s; left: 70%; top: 22%; color: #6d28d9; /* violet-700 */ }
+    .float-5 { animation-duration: 5s; left: 85%; top: 12%; color: #5b21b6; /* violet-800 */ }
 
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  </head>
-  <body>
-    <div
-      class="relative flex size-full min-h-screen flex-col bg-gradient-to-br from-[#0f172a] to-[#1e293b] dark group/design-root overflow-x-hidden"
-      style='font-family: "Noto Serif", "Noto Sans", sans-serif;'
-    >
-      <div class="flex h-full grow flex-col">
-        <header
-          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#334155] px-10 py-3 bg-[#1e293b]"
-        >
-          <div class="flex items-center gap-4 text-[#e0e7ff]">
-            <div class="size-4 text-[#60a5fa]">
-              <svg
-                viewBox="0 0 48 48"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </div>
-            <h2
-              class="text-[#e0e7ff] text-lg font-extrabold leading-tight tracking-[-0.015em]"
-            >
-              Text Cleaner
-            </h2>
-          </div>
-        </header>
-        <!-- The main content container now has a constrained width of max-w-2xl and is centered with mx-auto -->
-        <div class="flex flex-col p-4 w-full max-w-2xl mx-auto">
-          <p class="text-[#bfdbfe] tracking-wide text-[36px] font-extrabold leading-tight">
-            Clean Your Text
-          </p>
-          <form method="POST" class="flex flex-col w-full my-4">
-            <label class="flex flex-col w-full">
-              <textarea
-                name="input_text"
-                placeholder="Paste your text here"
-                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-y-auto rounded-lg text-[#f1f5f9] focus:outline-none focus:ring-2 focus:ring-[#60a5fa] border border-[#334155] bg-[#1e293b] min-h-36 placeholder:text-[#94a3b8] p-[15px] text-base font-normal leading-normal"
-              >{{ input_text }}</textarea>
-            </label>
-            <div class="flex mt-4 justify-center">
-              <button
-                type="submit"
-                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-[#f1f5f9] text-sm font-bold leading-normal tracking-[0.015em] hover:from-[#2563eb] hover:to-[#1e40af] transition"
-              >
-                <span class="truncate">Clean Text</span>
-              </button>
-            </div>
-          </form>
+    /* Fancy button ripple effect */
+    .btn-fancy {
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+    .btn-fancy::before {
+      content: '';
+      position: absolute;
+      width: 120%;
+      height: 120%;
+      top: 50%;
+      left: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.5s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .btn-fancy:hover::before {
+      transform: translate(-50%, -50%) scale(1);
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-fancy span {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+    .btn-fancy:hover span {
+      transform: scale(1.05) rotate(3deg);
+    }
+  </style>
+</head>
+<body class="bg-violet-50 min-h-screen flex flex-col items-center justify-center p-6 font-sans relative overflow-x-hidden">
 
-          <div class="flex flex-col w-full my-4">
-            <label class="flex flex-col w-full">
-              <p class="text-[#cbd5e1] text-base font-semibold leading-normal pb-2">
-                Output Text
-              </p>
-              <textarea
-                readonly
-                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-y-auto rounded-lg text-[#f1f5f9] focus:outline-none focus:ring-2 focus:ring-[#60a5fa] border border-[#334155] bg-[#1e293b] min-h-36 placeholder:text-[#94a3b8] p-[15px] text-base font-normal leading-normal"
-              >{{ cleaned_text }}</textarea>
-            </label>
-          </div>
+  <div class="w-full max-w-3xl bg-violet-100 rounded-3xl shadow-xl p-10 relative">
 
-          <div class="flex flex-col w-full my-4">
-            <label class="flex flex-col w-full">
-              <p class="text-[#cbd5e1] text-base font-semibold leading-normal pb-2">
-                Cleaning Code
-              </p>
-              <textarea
-                readonly
-                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-y-auto rounded-lg text-[#f1f5f9] focus:outline-none focus:ring-2 focus:ring-[#60a5fa] border border-[#334155] bg-[#1e293b] min-h-[400px] placeholder:text-[#94a3b8] p-[15px] text-base font-normal leading-normal"
-              >{{ cleaning_code }}</textarea>
-            </label>
-          </div>
-        </div>
-      </div>
+    <!-- Floating emojis around header -->
+    <div class="relative mb-14 flex justify-center items-center">
+      <h1 class="text-5xl font-extrabold tracking-wide text-violet-700 select-none relative z-10">🧹 Text Cleaner</h1>
+      
+      <!-- Emojis floating in various spots -->
+      <div class="float-emoji float-1">✨</div>
+      <div class="float-emoji float-2">🪄</div>
+      <div class="float-emoji float-3">🧼</div>
+      <div class="float-emoji float-4">🧽</div>
+      <div class="float-emoji float-5">🧺</div>
     </div>
-  </body>
+
+    <form method="POST" class="space-y-8">
+      <!-- Input -->
+      <div>
+        <label class="block text-lg font-semibold mb-3 text-violet-600">Enter your text:</label>
+        <textarea 
+          name="input_text"
+          placeholder="Paste your text here..."
+          class="w-full rounded-xl border border-violet-300 bg-violet-50 p-5 text-violet-900 placeholder-violet-400 focus:outline-none focus:ring-4 focus:ring-violet-300 min-h-[160px] resize-y transition"
+        >{{ input_text }}</textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="flex justify-center">
+        <button 
+          type="submit" 
+          class="btn-fancy px-10 py-3 bg-gradient-to-r from-violet-400 to-violet-600 rounded-full text-white font-bold shadow-lg hover:from-violet-500 hover:to-violet-700 transition duration-300"
+        >
+          <span>Clean Text ✨</span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Output -->
+    {% if cleaned_text %}
+    <div class="mt-10">
+      <label class="block text-lg font-semibold mb-3 text-violet-600">Cleaned Output:</label>
+      <textarea 
+        readonly
+        class="w-full rounded-xl border border-violet-300 bg-violet-100 p-5 text-violet-900 min-h-[160px] resize-y shadow-inner"
+      >{{ cleaned_text }}</textarea>
+    </div>
+    {% endif %}
+
+    <!-- Cleaning Code -->
+    <div class="mt-10">
+      <label class="block text-lg font-semibold mb-3 text-violet-600">Cleaning Code:</label>
+      <pre class="w-full rounded-xl border border-violet-300 bg-violet-50 p-5 overflow-x-auto text-sm text-violet-800 font-mono shadow-inner">{{ cleaning_code }}</pre>
+    </div>
+  </div>
+
+</body>
 </html>
